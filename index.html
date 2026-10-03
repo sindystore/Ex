@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNI Sindy - เว็บแสดงบริการ รีวิว และเครดิต</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Kanit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Kanit', 'sans-serif'] },
+                    colors: {
+                        sindy: {
+                            light: '#ffe4e6',
+                            pink: '#fda4af',
+                            main: '#fb7185',
+                            dark: '#f43f5e',
+                            text: '#be185d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-image: url('https://i.postimg.cc/Kv0LXHJv/9D07927B-0057-4BAA-A1F4-5D0E46AABC53.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #be185d;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 2px solid rgba(253, 164, 175, 0.5);
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(251, 113, 133, 0.15);
+        }
+
+        /* Cute Buttons */
+        .btn-pink {
+            background: linear-gradient(135deg, #fda4af, #fb7185);
+            color: white;
+            border-radius: 9999px;
+            box-shadow: 0 4px 15px rgba(251, 113, 133, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-pink:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(251, 113, 133, 0.5);
+        }
+
+        .nav-btn {
+            background: white;
+            border: 2px solid #fda4af;
+            color: #fb7185;
+            border-radius: 9999px;
+            padding: 10px 24px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: #fda4af;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(253, 164, 175, 0.4);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float { animation: float 3.5s ease-in-out infinite; }
+        
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .fade-in { animation: fadeInScale 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(255, 228, 230, 0.5); }
+        ::-webkit-scrollbar-thumb { background: #fda4af; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #fb7185; }
+
+        /* Hide File Input natively */
+        input[type="file"] { display: none; }
+        .file-upload-label { cursor: pointer; transition: all 0.3s ease; }
+        .file-upload-label:hover { background: #fff0f2; }
+    </style>
+</head>
+<body class="overflow-x-hidden relative">
+
+    <!-- ================= 1. LANDING PAGE ================= -->
+    <div id="landing-page" class="min-h-screen flex flex-col items-center justify-center fade-in p-4">
+        <img src="https://s.imgz.io/2026/07/15/DA0D2171-669F-4863-B0AD-A3084C2E881A787a7e4aae484696.png" alt="SNI Sindy Logo" class="w-72 md:w-96 animate-float mb-6 drop-shadow-2xl">
+        
+        <div class="glass-panel p-8 text-center max-w-lg w-full relative overflow-hidden">
+            <!-- Sparkle decorations -->
+            <i class="fas fa-star absolute top-4 left-4 text-yellow-300 animate-pulse"></i>
+            <i class="fas fa-heart absolute bottom-4 right-4 text-sindy-pink animate-pulse" style="animation-delay: 1s"></i>
+            
+            <h1 class="text-3xl font-bold mb-4 text-sindy-dark tracking-wide">ยินดีต้อนรับ</h1>
+            <p class="mb-8 text-gray-600 font-medium leading-relaxed">ขอบคุณที่แวะเข้ามานะคะ 💕<br>เว็บแสดงบริการ ตัวอย่างงาน รีวิว และเครดิตร้าน<br>บริการดี ราคาคุ้มค่า ปลอดภัย ไวใจเรา</p>
+            
+            <button onclick="enterSite()" class="btn-pink px-12 py-4 text-xl font-bold w-full flex items-center justify-center gap-2">
+                เข้าสู่เว็บ <i class="fas fa-arrow-right text-sm"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= 2. MAIN WEBSITE ================= -->
+    <div id="main-site" class="hidden min-h-screen pb-24">
+        
+        <!-- Top Navigation -->
+        <nav class="sticky top-0 z-50 glass-panel mx-4 mt-6 mb-10 p-4 flex flex-wrap justify-center gap-3 md:gap-6 max-w-4xl md:mx-auto">
+            <button onclick="switchTab('services')" class="nav-btn active" id="btn-services">
+                <i class="fas fa-box-open mr-1"></i> บริการทั้งหมด
+            </button>
+            <button onclick="switchTab('reviews')" class="nav-btn" id="btn-reviews">
+                <i class="fas fa-star mr-1"></i> รีวิวจากลูกค้า
+            </button>
+            <button onclick="switchTab('contact')" class="nav-btn" id="btn-contact">
+                <i class="fas fa-address-book mr-1"></i> Contact
+            </button>
+            <button onclick="location.reload()" class="nav-btn !border-gray-200 !text-gray-500 hover:!bg-gray-100 hover:!text-gray-700 ml-auto">
+                <i class="fas fa-reply mr-1"></i> ย้อนกลับ
+            </button>
+        </nav>
+
+        <!-- Content Container -->
+        <div class="max-w-5xl mx-auto px-4 relative z-10">
+
+            <!-- Loading Spinner -->
+            <div id="loader" class="text-center py-24 text-sindy-main hidden">
+                <i class="fas fa-circle-notch fa-spin fa-4x mb-4 drop-shadow-md"></i>
+                <p class="font-bold text-lg animate-pulse">กำลังโหลดข้อมูลน่ารักๆ สักครู่นะคะ 🌸...</p>
+            </div>
+
+            <!-- SECTION: SERVICES -->
+            <section id="sec-services" class="fade-in">
+                <div id="services-container">
+                    <!-- Services will be injected here via JavaScript -->
+                </div>
+            </section>
+
+            <!-- SECTION: REVIEWS -->
+            <section id="sec-reviews" class="hidden fade-in">
+                <!-- Review Form -->
+                <div class="glass-panel p-6 md:p-8 mb-12 max-w-2xl mx-auto relative">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-white border-2 border-sindy-pink text-sindy-dark px-8 py-2 rounded-full font-bold shadow-md whitespace-nowrap">
+                        รบกวนเขียนรีวิวให้เค้าหน่อยค้าบ 💖
+                    </div>
+                    
+                    <form id="review-form" onsubmit="submitReview(event)" class="mt-6 space-y-5">
+                        <input type="text" id="rev-name" placeholder="ชื่อของคุณ" required class="w-full rounded-full border-2 border-sindy-light p-3 outline-none focus:border-sindy-main text-center bg-white/70 transition-colors">
+                        
+                        <textarea id="rev-text" placeholder="เขียนความประทับใจที่นี่..." required class="w-full rounded-3xl border-2 border-sindy-light p-4 outline-none focus:border-sindy-main text-center h-28 bg-white/70 transition-colors resize-none"></textarea>
+                        
+                        <!-- Star Rating -->
+                        <div class="flex justify-center gap-3 text-3xl text-gray-300 drop-shadow-sm" id="star-rating">
+                            <i class="fas fa-star cursor-pointer transition-colors hover:text-yellow-400" onclick="setRating(1)"></i>
+                            <i class="fas fa-star cursor-pointer transition-colors hover:text-yellow-400" onclick="setRating(2)"></i>
+                            <i class="fas fa-star cursor-pointer transition-colors hover:text-yellow-400" onclick="setRating(3)"></i>
+                            <i class="fas fa-star cursor-pointer transition-colors hover:text-yellow-400" onclick="setRating(4)"></i>
+                            <i class="fas fa-star cursor-pointer transition-colors hover:text-yellow-400 text-yellow-400" onclick="setRating(5)"></i>
+                        </div>
+                        <input type="hidden" id="rev-rating" value="5">
+
+                        <!-- Image Upload -->
+                        <label class="file-upload-label flex flex-col items-center justify-center w-full rounded-full border-2 border-dashed border-sindy-pink p-3 bg-white/50 text-sindy-main font-medium">
+                            <span id="file-name"><i class="fas fa-image mr-2"></i> Upload Photo (อัพโหลดรูปภาพ)</span>
+                            <input type="file" id="rev-image" accept="image/*" onchange="previewFile()">
+                        </label>
+
+                        <button type="submit" id="btn-submit-review" class="btn-pink w-full py-4 font-bold text-lg mt-2 tracking-wide">
+                            ส่งรีวิว ✨
+                        </button>
+                    </form>
+                </div>
+
+                <div class="flex justify-center mb-8">
+                    <h2 class="text-3xl font-bold text-white drop-shadow-md bg-sindy-main/80 backdrop-blur-sm px-10 py-2 rounded-full">รีวิวทั้งหมด</h2>
+                </div>
+                
+                <!-- Review Grid -->
+                <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Reviews injected here -->
+                </div>
+            </section>
+
+            <!-- SECTION: CONTACT -->
+            <section id="sec-contact" class="hidden fade-in max-w-3xl mx-auto space-y-6" id="contacts-container">
+                 <!-- Contacts injected here -->
+            </section>
+
+        </div>
+    </div>
+
+    <!-- ================= MODAL FOR SERVICE DETAILS ================= -->
+    <div id="service-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4 transition-opacity">
+        <div class="glass-panel w-full max-w-md p-6 relative fade-in border-4 border-white">
+            <button onclick="closeModal()" class="absolute -top-3 -right-3 bg-white text-sindy-dark rounded-full w-10 h-10 flex items-center justify-center shadow-lg hover:bg-sindy-light transition-colors border-2 border-sindy-pink">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            
+            <img id="m-img" src="" class="w-full h-56 object-cover rounded-2xl mb-5 shadow-inner border border-gray-100">
+            
+            <h3 id="m-title" class="text-2xl font-bold text-sindy-dark mb-2 text-center"></h3>
+            <p id="m-desc" class="text-gray-600 mb-4 text-center leading-relaxed"></p>
+            
+            <div class="bg-sindy-light/50 border border-sindy-pink p-3 rounded-xl mb-6 text-center font-bold text-sindy-dark text-lg" id="m-price"></div>
+            
+            <button onclick="closeModal()" class="btn-pink w-full py-3.5 font-bold text-lg shadow-md">
+                <i class="fab fa-line mr-2"></i> ติดต่อสั่งซื้อเลย 💕
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // ⚠️ นำ URL Web App ของ Google Apps Script มาใส่ในเครื่องหมายคำพูดด้านล่าง
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyfqccWunjlgaAMG1xXHC_nSCAZpKeAfc-hYc1EJNfp3I5HvOc0jqCix8BD8O6Y9mZ13g/exec"; 
+
+        let webData = { services: [], reviews: [], contacts: [] };
+        let imageBase64String = ""; // เก็บค่ารูปภาพรีวิว
+
+        function enterSite() {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('main-site').classList.remove('hidden');
+            fetchData();
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById('sec-' + tab).classList.remove('hidden');
+            document.getElementById('btn-' + tab).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function fetchData() {
+            document.getElementById('loader').classList.remove('hidden');
+            document.getElementById('services-container').innerHTML = '';
+            
+            try {
+                if(GAS_URL === "ใส่_URL_WEB_APP_ของท่านที่นี่" || GAS_URL === "") {
+                    console.log("Using Mock Data (API Not Connected)");
+                    loadMockData();
+                } else {
+                    const response = await fetch(GAS_URL);
+                    webData = await response.json();
+                }
+                renderServices();
+                renderReviews();
+                renderContacts();
+            } catch (error) {
+                console.error("Error fetching API:", error);
+                alert("ไม่สามารถดึงข้อมูลจากฐานข้อมูลได้ กำลังแสดงข้อมูลจำลอง");
+                loadMockData();
+                renderServices(); renderReviews(); renderContacts();
+            }
+            
+            document.getElementById('loader').classList.add('hidden');
+        }
+
+        function renderServices() {
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+            
+            // จัดกลุ่มตามหมวดหมู่ (Category)
+            const categories = [...new Set(webData.services.map(s => s.Category).filter(Boolean))];
+            
+            categories.forEach(cat => {
+                let catHtml = `
+                    <div class="mb-14">
+                        <div class="flex justify-center mb-8">
+                            <span class="bg-white border-2 border-sindy-pink text-sindy-dark px-10 py-2.5 rounded-full font-bold shadow-sm text-lg">${cat}</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
+                `;
+                
+                webData.services.filter(s => s.Category === cat).forEach(item => {
+                    let imgPath = item.ImageURL || 'https://via.placeholder.com/400x300/ffe4e6/fb7185?text=SNI+Sindy';
+                    
+                    catHtml += `
+                        <div class="glass-panel p-4 hover:-translate-y-2 transition-transform duration-300 flex flex-col group bg-white/60">
+                            <div class="overflow-hidden rounded-xl mb-4 border border-sindy-light relative">
+                                <img src="${imgPath}" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="absolute top-2 right-2 bg-white/90 text-sindy-dark text-xs font-bold px-2 py-1 rounded-lg shadow-sm">
+                                    พร้อมส่ง
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-2 text-gray-800 text-center">${item.Name}</h3>
+                            <p class="text-sm text-gray-500 line-clamp-2 mb-4 flex-grow text-center px-2">${item.Description}</p>
+                            
+                            <div class="text-white font-bold text-lg mb-4 text-center bg-sindy-main rounded-xl py-2 shadow-sm">
+                                ${item.Price} ฿
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3 mt-auto">
+                                <button onclick="openModal('${item.Name.replace(/'/g, "\\'")}', '${item.Description.replace(/'/g, "\\'")}', '${item.Price}', '${imgPath}')" class="bg-white border-2 border-sindy-pink text-sindy-main py-2 rounded-xl text-sm font-bold hover:bg-sindy-light transition-colors shadow-sm">
+                                    รายละเอียด
+                                </button>
+                                <button onclick="switchTab('contact')" class="btn-pink py-2 rounded-xl text-sm font-bold shadow-sm">
+                                    สั่งซื้อ
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                catHtml += `</div></div>`;
+                container.innerHTML += catHtml;
+            });
+        }
+
+        function renderReviews() {
+            const container = document.getElementById('reviews-container');
+            container.innerHTML = '';
+            
+            // กรองสถานะ Approved และสลับให้ใหม่สุดขึ้นก่อน
+            let revs = webData.reviews.filter(r => r.Status === 'Approved').reverse();
+            
+            if (revs.length === 0) {
+                container.innerHTML = '<p class="col-span-full text-center text-gray-500">ยังไม่มีรีวิวในขณะนี้ มารีวิวเป็นคนแรกกันเถอะ 💕</p>';
+                return;
+            }
+
+            revs.forEach(rev => {
+                let stars = '';
+                let rating = parseInt(rev.Rating) || 5;
+                for(let i=0; i<5; i++) {
+                    stars += i < rating ? '<i class="fas fa-star text-yellow-400"></i>' : '<i class="fas fa-star text-gray-300"></i>';
+                }
+                
+                let imgHtml = rev.ImageBase64 ? `<img src="${rev.ImageBase64}" class="w-full h-40 object-cover rounded-xl mt-4 border border-sindy-light shadow-sm">` : '';
+                
+                container.innerHTML += `
+                    <div class="glass-panel p-6 text-center flex flex-col items-center bg-white/70 hover:shadow-lg transition-shadow">
+                        <div class="mb-3 text-lg">${stars}</div>
+                        <p class="text-sm mb-4 text-gray-700 italic flex-grow">"${rev.ReviewText}"</p>
+                        ${imgHtml}
+                        <div class="font-bold text-sindy-main bg-white inline-block px-5 py-1.5 rounded-full border border-sindy-light mt-4 shadow-sm w-full">
+                            - ${rev.Name} -
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderContacts() {
+            const container = document.getElementById('sec-contact');
+            container.innerHTML = '';
+            
+            webData.contacts.forEach(c => {
+                let imgPath = c.ImageURL || 'https://via.placeholder.com/150/ffe4e6/fb7185?text=Contact';
+                container.innerHTML += `
+                    <div class="glass-panel p-5 flex flex-col md:flex-row items-center justify-between hover:scale-[1.02] transition-transform bg-white/80 gap-4">
+                        <div class="flex items-center gap-5 w-full md:w-auto">
+                            <img src="${imgPath}" class="w-20 h-20 md:w-24 md:h-24 rounded-2xl object-cover border-4 border-white shadow-md">
+                            <div>
+                                <h3 class="font-bold text-xl text-sindy-dark mb-1">แพลตฟอร์ม : ${c.Platform}</h3>
+                                <p class="text-gray-500 font-medium bg-sindy-light inline-block px-3 py-1 rounded-lg text-sm">ID : ${c.Username}</p>
+                            </div>
+                        </div>
+                        <a href="${c.Link}" target="_blank" class="btn-pink px-8 py-3 font-bold shadow-md w-full md:w-auto text-center rounded-xl">
+                            เข้าร้าน <i class="fas fa-external-link-alt ml-1 text-sm"></i>
+                        </a>
+                    </div>
+                `;
+            });
+        }
+
+        // --- รูปภาพและรีวิว Interactions ---
+        function setRating(val) {
+            document.getElementById('rev-rating').value = val;
+            const stars = document.getElementById('star-rating').children;
+            for(let i=0; i<5; i++) {
+                if(i < val) {
+                    stars[i].classList.remove('text-gray-300');
+                    stars[i].classList.add('text-yellow-400');
+                } else {
+                    stars[i].classList.add('text-gray-300');
+                    stars[i].classList.remove('text-yellow-400');
+                }
+            }
+        }
+
+        function previewFile() {
+            const file = document.getElementById('rev-image').files[0];
+            const nameLabel = document.getElementById('file-name');
+            if (file) {
+                // เช็คขนาดไฟล์ไม่ให้เกิน 2MB เพื่อป้องกัน Apps Script รับ payload ไม่ไหว
+                if(file.size > 2 * 1024 * 1024) {
+                    alert('ไฟล์ภาพใหญ่เกินไป กรุณาเลือกไฟล์ขนาดไม่เกิน 2MB ค่ะ');
+                    document.getElementById('rev-image').value = "";
+                    return;
+                }
+                nameLabel.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i> เลือกรูปแล้ว: ${file.name}`;
+                
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    imageBase64String = reader.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                nameLabel.innerHTML = `<i class="fas fa-image mr-2"></i> Upload Photo (อัพโหลดรูปภาพ)`;
+                imageBase64String = "";
+            }
+        }
+
+        async function submitReview(e) {
+            e.preventDefault();
+            
+            if(GAS_URL === "ใส่_URL_WEB_APP_ของท่านที่นี่" || GAS_URL === "") {
+                alert('ระบบ API ยังไม่ถูกตั้งค่า (GAS URL) ไม่สามารถส่งข้อมูลจริงได้ค่ะ');
+                return;
+            }
+
+            const btn = document.getElementById('btn-submit-review');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> กำลังส่งข้อมูล...';
+            btn.disabled = true;
+            
+            const payload = {
+                name: document.getElementById('rev-name').value,
+                text: document.getElementById('rev-text').value,
+                rating: parseInt(document.getElementById('rev-rating').value),
+                image: imageBase64String // ส่งภาพเป็น Base64
+            };
+
+            try {
+                const response = await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert('ส่งรีวิวสำเร็จ ขอบคุณมากค่า 💕 (รีวิวจะแสดงหลังการรีเฟรช)');
+                    e.target.reset();
+                    setRating(5);
+                    document.getElementById('file-name').innerHTML = `<i class="fas fa-image mr-2"></i> Upload Photo (อัพโหลดรูปภาพ)`;
+                    imageBase64String = "";
+                    fetchData(); // อัปเดตข้อมูลใหม่ทันที
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + result.message);
+                }
+            } catch (err) {
+                alert('เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย กรุณาลองใหม่ค่ะ');
+            }
+            
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+
+        // --- Modal Interactions ---
+        function openModal(title, desc, price, img) {
+            document.getElementById('m-title').innerText = title;
+            document.getElementById('m-desc').innerText = desc;
+            document.getElementById('m-price').innerText = 'ราคา: ' + price + ' บาท';
+            document.getElementById('m-img').src = img;
+            document.getElementById('service-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('service-modal').classList.add('hidden');
+        }
+
+        // ปิด Modal เมื่อคลิกพื้นที่ว่าง
+        document.getElementById('service-modal').addEventListener('click', function(e) {
+            if(e.target === this) closeModal();
+        });
+
+        // --- Mock Data (แสดงผลเมื่อยังไม่ต่อ API) ---
+        function loadMockData() {
+            webData = {
+                services: [
+                    { Category: 'แอพพรีเมียม', Name: 'Netflix Premium 4K', Description: 'จอส่วนตัว ดูได้ 1 จอ ใช้งานได้จริง ปลอดภัย ไร้กังวล รับประกันตลอดการใช้งาน', Price: '99', ImageURL: 'https://via.placeholder.com/400x300/fecdd3/be185d?text=Netflix' },
+                    { Category: 'แอพพรีเมียม', Name: 'YouTube Premium', Description: 'ของแท้ เมลตัวเอง ไม่มีโฆษณาคั่น คุ้มกว่าแน่นอน!', Price: '59', ImageURL: 'https://via.placeholder.com/400x300/fecdd3/be185d?text=YouTube' },
+                    { Category: 'แอพพรีเมียม', Name: 'Canva Pro', Description: 'ใช้งานได้ทุกฟีเจอร์ ฟอนต์สวยๆ เพียบ สำหรับสายกราฟิก', Price: '49', ImageURL: 'https://via.placeholder.com/400x300/fecdd3/be185d?text=Canva' },
+                    { Category: 'บริการปั๊ม', Name: 'เพิ่มผู้ติดตาม (Followers)', Description: 'เพิ่มยอดฟอล ไอจี ติ๊กตอก ปลอดภัย ไม่ใช้รหัสผ่าน', Price: '150', ImageURL: 'https://via.placeholder.com/400x300/fecdd3/be185d?text=Followers' },
+                    { Category: 'บริการปั๊ม', Name: 'เพิ่มยอดไลก์ (Likes)', Description: 'เพิ่มยอดไลก์รูปภาพ โพสต์ งานเนียน งานไว', Price: '100', ImageURL: 'https://via.placeholder.com/400x300/fecdd3/be185d?text=Likes' }
+                ],
+                reviews: [
+                    { Name: 'น้องเหมียว', Rating: 5, ReviewText: 'บริการดีมากค่ะ แอดมินตอบไว งานเนียบมาก แนะนำเลยค่า 💕', Status: 'Approved', ImageBase64: '' },
+                    { Name: 'ลูกค้าประจำ', Rating: 4, ReviewText: 'ซื้อหลายรอบแล้ว ไม่เคยผิดหวังเลย งานไวสุดๆ คุ้มราคามาก', Status: 'Approved', ImageBase64: '' },
+                    { Name: 'คุณเอ', Rating: 5, ReviewText: 'ร้านนี้ไว้ใจได้ 100% ตอบเร็ว ส่งของไว ไว้มาอุดหนุนใหม่นะคะ', Status: 'Approved', ImageBase64: 'https://via.placeholder.com/300x200/ffe4e6/fb7185?text=Review+Image' }
+                ],
+                contacts: [
+                    { Platform: 'Line OA', Username: '@111xvhft', Link: '#', ImageURL: 'https://s.imgz.io/2026/07/15/DA0D2171-669F-4863-B0AD-A3084C2E881A787a7e4aae484696.png' },
+                    { Platform: 'Instagram', Username: 'snisindy.official', Link: '#', ImageURL: 'https://via.placeholder.com/150/ffe4e6/fb7185?text=IG' }
+                ]
+            };
+        }
+    </script>
+</body>
+</html>
